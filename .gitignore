@@ -1,0 +1,7 @@
+/vendor/
+/composer.lock
+/.phpunit.cache/
+/.php-cs-fixer.cache
+.DS_Store
+# ---- instructions de Claude Code : locales, jamais versionnées
+CLAUDE.md

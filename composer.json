@@ -1,0 +1,50 @@
+{
+    "name": "vvbx/auth-bundle",
+    "description": "Connexion SSO OIDC (code + PKCE) et comptes désactivables pour les applications Symfony de la suite vvbx",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "doctrine/orm": "^3.0",
+        "doctrine/persistence": "^3.0 || ^4.0",
+        "symfony/cache-contracts": "^3.0",
+        "symfony/config": "^7.4",
+        "symfony/console": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/framework-bundle": "^7.4",
+        "symfony/http-client": "^7.4",
+        "symfony/http-kernel": "^7.4",
+        "symfony/routing": "^7.4",
+        "symfony/security-bundle": "^7.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "symfony/cache": "^7.4",
+        "symfony/security-core": "7.4.*",
+        "twig/twig": "^3.0"
+    },
+    "suggest": {
+        "twig/twig": "fonction Twig vvbx_auth_sso_enabled() pour afficher le bouton de connexion SSO"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vvbx\\AuthBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vvbx\\AuthBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "stan": "phpstan analyse --no-progress",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix"
+    }
+}

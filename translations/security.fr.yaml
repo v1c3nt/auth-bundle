@@ -1,0 +1,7 @@
+# ---- erreurs de la connexion SSO (OidcAuthenticator), affichées sur la page de connexion ; surchargeables par l'app
+oidc.error.state: "La connexion a expiré ou a été interrompue. Recommencez."
+oidc.error.denied: "La connexion a été refusée par le service d'authentification."
+oidc.error.idp: "Le service d'authentification ne répond pas correctement. Réessayez plus tard."
+oidc.error.unknown_user: "Ce compte n'a pas accès à cette application. Contactez un administrateur."
+# ---- compte désactivé (UserChecker)
+user.inactive: "Ce compte est désactivé. Contactez un administrateur."
