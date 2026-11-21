@@ -12,7 +12,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * Client OIDC minimal (code + PKCE) vers l'IdP de la suite.
  *
  * OIDC standard uniquement : endpoints lus dans la découverte, claims sub, email et email_verified.
- * Désactivé tant que OIDC_ISSUER ou OIDC_CLIENT_ID est vide.
+ * Désactivé tant que OIDC_ISSUER ou OIDC_CLIENT_ID est vide. OIDC_EXTRA_SCOPES (séparés par des espaces) s'ajoute
+ * aux scopes demandés : le déploiement y met ce que son IdP attend (ex. l'organisation du client), l'app n'en sait rien.
  */
 final class OidcClient
 {
@@ -27,6 +28,8 @@ final class OidcClient
         private readonly ?string $clientId,
         #[Autowire(env: 'default::OIDC_CLIENT_SECRET')]
         private readonly ?string $clientSecret,
+        #[Autowire(env: 'default::OIDC_EXTRA_SCOPES')]
+        private readonly ?string $extraScopes = null,
     ) {
     }
 
@@ -41,7 +44,7 @@ final class OidcClient
             'response_type' => 'code',
             'client_id' => $this->clientId,
             'redirect_uri' => $redirectUri,
-            'scope' => self::SCOPE,
+            'scope' => $this->scope(),
             'state' => $state,
             'code_challenge' => self::codeChallenge($codeVerifier),
             'code_challenge_method' => 'S256',
@@ -80,6 +83,14 @@ final class OidcClient
         } catch (ExceptionInterface $e) {
             throw new OidcException('Échange avec l\'IdP impossible : '.$e->getMessage(), previous: $e);
         }
+    }
+
+    // ---- openid email, puis les scopes supplémentaires du déploiement, sans doublon
+    public function scope(): string
+    {
+        $extra = preg_split('/\s+/', trim((string) $this->extraScopes), -1, \PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return implode(' ', array_values(array_unique([...explode(' ', self::SCOPE), ...$extra])));
     }
 
     public static function newCodeVerifier(): string

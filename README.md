@@ -54,6 +54,8 @@ security:
 OIDC_ISSUER=
 OIDC_CLIENT_ID=
 OIDC_CLIENT_SECRET=
+# facultatif : scopes ajoutés à « openid email », séparés par des espaces (ex. organisation du client chez l'IdP)
+OIDC_EXTRA_SCOPES=
 ```
 
 ## Contrat de l'app

@@ -45,6 +45,17 @@ final class OidcClientTest extends TestCase
         self::assertSame('state-1', $query['state']);
     }
 
+    public function testExtraScopesAreAddedWithoutDuplicates(): void
+    {
+        self::assertSame('openid email', $this->oidc(FakeIdp::ISSUER, 'app')->scope());
+
+        $oidc = new OidcClient(new MockHttpClient(new FakeIdp()), new ArrayAdapter(), FakeIdp::ISSUER, 'app', 'secret', "  urn:idp:org:42   email\tprofile ");
+        self::assertSame('openid email urn:idp:org:42 profile', $oidc->scope());
+
+        parse_str((string) parse_url($oidc->authorizationUrl('https://app.test/oidc/callback', 's', OidcClient::newCodeVerifier()), \PHP_URL_QUERY), $query);
+        self::assertSame('openid email urn:idp:org:42 profile', $query['scope']);
+    }
+
     public function testFetchClaimsSendsVerifierAndReadsUserinfo(): void
     {
         FakeIdp::$claims = ['sub' => 'sub-1', 'email' => 'a@exemple.fr', 'email_verified' => true];
