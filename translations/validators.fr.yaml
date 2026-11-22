@@ -1,0 +1,8 @@
+# ---- identité de la structure (Identity) ; surchargeables par l'app
+identity:
+    postal_code:
+        invalid: 'Code postal invalide (attendu : 5 chiffres).'
+    siren:
+        invalid: 'N° SIREN invalide (attendu : 9 chiffres).'
+    rna:
+        invalid: 'N° RNA invalide (attendu : W suivi de 9 chiffres).'

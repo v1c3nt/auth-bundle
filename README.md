@@ -83,6 +83,38 @@ OIDC_EXTRA_SCOPES=
 | `Command\PreauthorizeUserCommand` | `vvbx:user:preauthorize <email> <role>`, relançable, appelée au provisioning |
 | `Testing\FakeIdp` | IdP simulé pour les tests de l'app (`mock_response_factory`) |
 
+## Identité de la structure
+
+`Vvbx\SuiteBundle\Identity\Identity` est un embeddable Doctrine : l'identité de la structure cliente, de même forme dans toutes les apps de la suite. Le bundle déclare son mapping auprès de Doctrine ; l'app l'intègre dans l'entité de son choix :
+
+```php
+use Vvbx\SuiteBundle\Identity\Identity;
+
+#[ORM\Embedded(class: Identity::class, columnPrefix: false)]
+#[Assert\Valid]
+private Identity $identity;
+```
+
+| Champ | Obligatoire | Format |
+| --- | --- | --- |
+| `name` | oui | 150 |
+| `shortName` | non | 80, nom d'usage (`getDisplayName()` le préfère au nom officiel) |
+| `acronym` | non | 20 |
+| `street` | oui | 255, plusieurs lignes possibles |
+| `postalCode` | oui | 5 chiffres (France) |
+| `city` | oui | 100 |
+| `email` | oui | e-mail, 180 (contact public, imprimé sur les documents) |
+| `phone` | non | 20, format libre |
+| `website` | non | URL, 255 |
+| `siren` | non | 9 chiffres |
+| `rna` | non | `W` suivi de 9 chiffres |
+
+- Colonnes nullables : une installation neuve démarre vide, l'obligation est portée par la validation.
+- Saisie normalisée par les setters : espaces de bord retirés, chaîne vide ramenée à `null`, espaces retirés du SIREN, du RNA et du code postal, RNA en majuscules.
+- `getPostalAddress()` : voie, puis code postal et ville, sur plusieurs lignes.
+- Une exigence propre à un module (ex. SIREN obligatoire pour délivrer des reçus fiscaux) reste dans l'app.
+- Messages de validation dans le domaine `validators` (`identity.*`), surchargeables par l'app.
+
 ## Tests de l'app
 
 ```yaml

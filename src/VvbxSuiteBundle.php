@@ -20,7 +20,7 @@ use Vvbx\SuiteBundle\Twig\SsoExtension;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
- * Briques communes des apps de la suite. Aujourd'hui : connexion SSO OIDC (code + PKCE) et comptes désactivables.
+ * Briques communes des apps de la suite : connexion SSO OIDC (code + PKCE), comptes désactivables, identité de la structure (Identity).
  *
  * Le bundle ne fournit pas l'entité User : l'app garde la sienne et implémente OidcUserInterface
  * (et ActivatableUserInterface), ainsi que AccountManagerInterface pour la pré-autorisation des comptes.
@@ -32,6 +32,27 @@ final class VvbxSuiteBundle extends AbstractBundle
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new AccountManagerPass());
+    }
+
+    // ---- mapping de l'embeddable Identity, ajouté à l'ORM de l'app (sans lui, Doctrine ignore ce namespace)
+    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        if (!$builder->hasExtension('doctrine')) {
+            return;
+        }
+
+        $builder->prependExtensionConfig('doctrine', [
+            'orm' => [
+                'mappings' => [
+                    'VvbxSuiteIdentity' => [
+                        'type' => 'attribute',
+                        'is_bundle' => false,
+                        'dir' => __DIR__.'/Identity',
+                        'prefix' => 'Vvbx\SuiteBundle\Identity',
+                    ],
+                ],
+            ],
+        ]);
     }
 
     public function configure(DefinitionConfigurator $definition): void
