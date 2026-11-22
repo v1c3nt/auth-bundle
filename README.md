@@ -115,6 +115,26 @@ private Identity $identity;
 - Une exigence propre à un module (ex. SIREN obligatoire pour délivrer des reçus fiscaux) reste dans l'app.
 - Messages de validation dans le domaine `validators` (`identity.*`), surchargeables par l'app.
 
+### SIREN hors de l'identité
+
+`Vvbx\SuiteBundle\Validator\Siren` est la seule définition du format du SIREN (9 chiffres), utilisée par `Identity` et par toute entité d'une app qui porte un SIREN (ex. entreprise donatrice) :
+
+```php
+use Vvbx\SuiteBundle\Validator\Siren;
+
+#[ORM\Column(length: 9, nullable: true)]
+#[Siren]
+private ?string $siren = null;
+
+public function setSiren(?string $siren): static
+{
+    $this->siren = Siren::normalize($siren); // « 123 456 789 » accepté, chaîne vide = null
+    return $this;
+}
+```
+
+La valeur nulle est acceptée : l'obligation reste à l'app. Message : `identity.siren.invalid`.
+
 ## Tests de l'app
 
 ```yaml

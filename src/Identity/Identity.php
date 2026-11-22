@@ -4,6 +4,7 @@ namespace Vvbx\SuiteBundle\Identity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vvbx\SuiteBundle\Validator\Siren;
 
 /**
  * Identité de la structure cliente (nom, adresse, contact, SIREN/RNA), de même forme dans toutes les apps de la suite.
@@ -68,7 +69,7 @@ class Identity
     private ?string $website = null;
 
     #[ORM\Column(length: 9, nullable: true)]
-    #[Assert\Regex(pattern: '/^\d{9}$/', message: 'identity.siren.invalid')]
+    #[Siren]
     private ?string $siren = null;
 
     // ---- répertoire national des associations : W suivi de 9 chiffres
@@ -205,10 +206,10 @@ class Identity
         return $this->siren;
     }
 
-    // ---- « 123 456 789 » saisi tel qu'imprimé est accepté
+    // ---- « 123 456 789 » saisi tel qu'imprimé est accepté (Siren::normalize())
     public function setSiren(?string $siren): static
     {
-        $this->siren = self::compact($siren);
+        $this->siren = Siren::normalize($siren);
 
         return $this;
     }
