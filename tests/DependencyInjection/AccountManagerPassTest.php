@@ -1,12 +1,12 @@
 <?php
 
-namespace Vvbx\AuthBundle\Tests\DependencyInjection;
+namespace Vvbx\SuiteBundle\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
-use Vvbx\AuthBundle\Account\AccountManagerInterface;
-use Vvbx\AuthBundle\DependencyInjection\AccountManagerPass;
+use Vvbx\SuiteBundle\Account\AccountManagerInterface;
+use Vvbx\SuiteBundle\DependencyInjection\AccountManagerPass;
 
 final class AccountManagerPassTest extends TestCase
 {

@@ -9,7 +9,7 @@
          cacheDirectory=".phpunit.cache"
 >
     <testsuites>
-        <testsuite name="vvbx/auth-bundle">
+        <testsuite name="vvbx/suite-bundle">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

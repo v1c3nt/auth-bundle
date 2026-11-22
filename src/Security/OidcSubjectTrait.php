@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Security;
+namespace Vvbx\SuiteBundle\Security;
 
 use Doctrine\ORM\Mapping as ORM;
 

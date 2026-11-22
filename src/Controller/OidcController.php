@@ -1,16 +1,16 @@
 <?php
 
-namespace Vvbx\AuthBundle\Controller;
+namespace Vvbx\SuiteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Vvbx\AuthBundle\Oidc\OidcClient;
-use Vvbx\AuthBundle\Security\OidcAuthenticator;
+use Vvbx\SuiteBundle\Oidc\OidcClient;
+use Vvbx\SuiteBundle\Security\OidcAuthenticator;
 
 /**
- * Routes /oidc/login et /oidc/callback, importées par l'app depuis @VvbxAuthBundle/config/routes.php.
+ * Routes /oidc/login et /oidc/callback, importées par l'app depuis @VvbxSuiteBundle/config/routes.php.
  * Sans OIDC_*, les deux répondent 404.
  */
 final class OidcController

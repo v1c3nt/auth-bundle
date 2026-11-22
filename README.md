@@ -1,6 +1,6 @@
-# vvbx/auth-bundle
+# vvbx/suite-bundle
 
-Connexion SSO OIDC (code + PKCE) et comptes désactivables pour les applications Symfony de la suite vvbx.
+Briques communes des applications Symfony de la suite vvbx. Aujourd'hui : connexion SSO OIDC (code + PKCE) et comptes désactivables.
 
 - OIDC standard uniquement : endpoints lus dans `/.well-known/openid-configuration`, claims `sub`, `email`, `email_verified` lus sur `userinfo`. Aucun claim propre à un éditeur d'IdP.
 - SSO optionnel : sans `OIDC_ISSUER` ou `OIDC_CLIENT_ID`, les routes SSO répondent 404 et l'app garde sa connexion locale.
@@ -10,25 +10,25 @@ Connexion SSO OIDC (code + PKCE) et comptes désactivables pour les applications
 ## Installation
 
 ```bash
-composer require vvbx/auth-bundle
+composer require vvbx/suite-bundle
 ```
 
 ```php
 // config/bundles.php
-Vvbx\AuthBundle\VvbxAuthBundle::class => ['all' => true],
+Vvbx\SuiteBundle\VvbxSuiteBundle::class => ['all' => true],
 ```
 
 ```yaml
-# config/packages/vvbx_auth.yaml
-vvbx_auth:
+# config/packages/vvbx_suite.yaml
+vvbx_suite:
     user_class: App\Entity\User
     # email_field: email        # propriété qui porte l'e-mail
     # target_route: admin       # après une connexion SSO réussie
     # login_route: app_login    # où afficher les erreurs SSO
 
-# config/routes/vvbx_auth.yaml
-vvbx_auth:
-    resource: '@VvbxAuthBundle/config/routes.php'
+# config/routes/vvbx_suite.yaml
+vvbx_suite:
+    resource: '@VvbxSuiteBundle/config/routes.php'
 ```
 
 ```yaml
@@ -36,14 +36,14 @@ vvbx_auth:
 security:
     providers:
         app_user_provider:
-            id: Vvbx\AuthBundle\Security\UserProvider
+            id: Vvbx\SuiteBundle\Security\UserProvider
     firewalls:
         main:
             provider: app_user_provider
-            user_checker: Vvbx\AuthBundle\Security\UserChecker
+            user_checker: Vvbx\SuiteBundle\Security\UserChecker
             form_login: { login_path: app_login, check_path: app_login, enable_csrf: true }
             custom_authenticators:
-                - Vvbx\AuthBundle\Security\OidcAuthenticator
+                - Vvbx\SuiteBundle\Security\OidcAuthenticator
             entry_point: form_login
     access_control:
         - { path: ^/oidc/, roles: PUBLIC_ACCESS }
@@ -70,7 +70,7 @@ OIDC_EXTRA_SCOPES=
   ```
 
 - **Comptes** : un service qui implémente `AccountManagerInterface` (rôles attribuables, pré-autorisation d'un compte par e-mail). L'app y applique ses propres règles (ex. nombre d'administrateurs) et lève `AccountException` en cas de refus.
-- **Page de connexion** : bouton SSO si `vvbx_auth_sso_enabled()`, vers `path('vvbx_auth_oidc_login')`. Les erreurs arrivent comme celles du formulaire (`error.messageKey|trans(error.messageData, 'security')`), traductions `oidc.*` et `user.inactive` fournies (surchargeables).
+- **Page de connexion** : bouton SSO si `vvbx_sso_enabled()`, vers `path('vvbx_suite_oidc_login')`. Les erreurs arrivent comme celles du formulaire (`error.messageKey|trans(error.messageData, 'security')`), traductions `oidc.*` et `user.inactive` fournies (surchargeables).
 
 ## Ce que fournit le bundle
 
@@ -90,12 +90,12 @@ OIDC_EXTRA_SCOPES=
 when@test:
     framework:
         http_client:
-            mock_response_factory: Vvbx\AuthBundle\Testing\FakeIdp
+            mock_response_factory: Vvbx\SuiteBundle\Testing\FakeIdp
 
 # config/services.yaml
 when@test:
     services:
-        Vvbx\AuthBundle\Testing\FakeIdp: ~
+        Vvbx\SuiteBundle\Testing\FakeIdp: ~
 ```
 
 ```dotenv

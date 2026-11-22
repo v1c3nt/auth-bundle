@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Security;
+namespace Vvbx\SuiteBundle\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +14,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
-use Vvbx\AuthBundle\Doctrine\UserRepository;
-use Vvbx\AuthBundle\Oidc\OidcClient;
-use Vvbx\AuthBundle\Oidc\OidcException;
+use Vvbx\SuiteBundle\Doctrine\UserRepository;
+use Vvbx\SuiteBundle\Oidc\OidcClient;
+use Vvbx\SuiteBundle\Oidc\OidcException;
 
 /**
  * Retour de l'IdP sur /oidc/callback : vérifie le state, lit les claims et retrouve le compte.
@@ -26,8 +26,8 @@ use Vvbx\AuthBundle\Oidc\OidcException;
  */
 final class OidcAuthenticator extends AbstractAuthenticator
 {
-    public const SESSION_KEY = 'vvbx_auth.oidc.pending';
-    public const CALLBACK_ROUTE = 'vvbx_auth_oidc_callback';
+    public const SESSION_KEY = 'vvbx_suite.oidc.pending';
+    public const CALLBACK_ROUTE = 'vvbx_suite_oidc_callback';
 
     public function __construct(
         private readonly OidcClient $oidc,

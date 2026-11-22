@@ -1,11 +1,11 @@
 <?php
 
-namespace Vvbx\AuthBundle\Tests\Security;
+namespace Vvbx\SuiteBundle\Tests\Security;
 
 use Doctrine\ORM\Mapping\Column;
 use PHPUnit\Framework\TestCase;
-use Vvbx\AuthBundle\Security\OidcSubjectTrait;
-use Vvbx\AuthBundle\Security\OidcUserInterface;
+use Vvbx\SuiteBundle\Security\OidcSubjectTrait;
+use Vvbx\SuiteBundle\Security\OidcUserInterface;
 
 final class OidcSubjectTraitTest extends TestCase
 {

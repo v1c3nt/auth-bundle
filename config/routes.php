@@ -1,15 +1,15 @@
 <?php
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
-use Vvbx\AuthBundle\Controller\OidcController;
+use Vvbx\SuiteBundle\Controller\OidcController;
 
-// ---- à importer par l'app : vvbx_auth: { resource: '@VvbxAuthBundle/config/routes.php' } ; garder /oidc/ en PUBLIC_ACCESS
+// ---- à importer par l'app : vvbx_suite: { resource: '@VvbxSuiteBundle/config/routes.php' } ; garder /oidc/ en PUBLIC_ACCESS
 return static function (RoutingConfigurator $routes): void {
-    $routes->add('vvbx_auth_oidc_login', '/oidc/login')
+    $routes->add('vvbx_suite_oidc_login', '/oidc/login')
         ->controller([OidcController::class, 'login'])
         ->methods(['GET']);
 
-    $routes->add('vvbx_auth_oidc_callback', '/oidc/callback')
+    $routes->add('vvbx_suite_oidc_callback', '/oidc/callback')
         ->controller([OidcController::class, 'callback'])
         ->methods(['GET']);
 };

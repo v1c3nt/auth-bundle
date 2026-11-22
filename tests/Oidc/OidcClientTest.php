@@ -1,14 +1,14 @@
 <?php
 
-namespace Vvbx\AuthBundle\Tests\Oidc;
+namespace Vvbx\SuiteBundle\Tests\Oidc;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
-use Vvbx\AuthBundle\Oidc\OidcClient;
-use Vvbx\AuthBundle\Oidc\OidcException;
-use Vvbx\AuthBundle\Testing\FakeIdp;
+use Vvbx\SuiteBundle\Oidc\OidcClient;
+use Vvbx\SuiteBundle\Oidc\OidcException;
+use Vvbx\SuiteBundle\Testing\FakeIdp;
 
 final class OidcClientTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Command;
+namespace Vvbx\SuiteBundle\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -8,8 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Vvbx\AuthBundle\Account\AccountException;
-use Vvbx\AuthBundle\Account\AccountManagerInterface;
+use Vvbx\SuiteBundle\Account\AccountException;
+use Vvbx\SuiteBundle\Account\AccountManagerInterface;
 
 // ---- appelée par le provisioning de la suite : relançable, sans mot de passe ni e-mail envoyé
 #[AsCommand(name: 'vvbx:user:preauthorize', description: 'Pré-autorise un compte par e-mail pour la connexion SSO')]

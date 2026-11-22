@@ -1,12 +1,12 @@
 <?php
 
-namespace Vvbx\AuthBundle\Tests\Security;
+namespace Vvbx\SuiteBundle\Tests\Security;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\InMemoryUser;
-use Vvbx\AuthBundle\Security\ActivatableUserInterface;
-use Vvbx\AuthBundle\Security\UserChecker;
+use Vvbx\SuiteBundle\Security\ActivatableUserInterface;
+use Vvbx\SuiteBundle\Security\UserChecker;
 
 final class UserCheckerTest extends TestCase
 {

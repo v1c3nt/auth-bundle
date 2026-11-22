@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Security;
+namespace Vvbx\SuiteBundle\Security;
 
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Vvbx\AuthBundle\Doctrine\UserRepository;
+use Vvbx\SuiteBundle\Doctrine\UserRepository;
 
 /**
  * Comptes chargés par e-mail. Au rechargement de la session (à chaque requête, même SELECT qu'un provider entity),

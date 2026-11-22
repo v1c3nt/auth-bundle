@@ -1,6 +1,6 @@
 {
-    "name": "vvbx/auth-bundle",
-    "description": "Connexion SSO OIDC (code + PKCE) et comptes désactivables pour les applications Symfony de la suite vvbx",
+    "name": "vvbx/suite-bundle",
+    "description": "Briques communes des applications Symfony de la suite vvbx : connexion SSO OIDC (code + PKCE), comptes désactivables",
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
@@ -26,16 +26,16 @@
         "twig/twig": "^3.0"
     },
     "suggest": {
-        "twig/twig": "fonction Twig vvbx_auth_sso_enabled() pour afficher le bouton de connexion SSO"
+        "twig/twig": "fonction Twig vvbx_sso_enabled() pour afficher le bouton de connexion SSO"
     },
     "autoload": {
         "psr-4": {
-            "Vvbx\\AuthBundle\\": "src/"
+            "Vvbx\\SuiteBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vvbx\\AuthBundle\\Tests\\": "tests/"
+            "Vvbx\\SuiteBundle\\Tests\\": "tests/"
         }
     },
     "config": {

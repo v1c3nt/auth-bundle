@@ -1,33 +1,33 @@
 <?php
 
-namespace Vvbx\AuthBundle;
+namespace Vvbx\SuiteBundle;
 
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-use Vvbx\AuthBundle\Account\AccountManagerInterface;
-use Vvbx\AuthBundle\Command\PreauthorizeUserCommand;
-use Vvbx\AuthBundle\Controller\OidcController;
-use Vvbx\AuthBundle\DependencyInjection\AccountManagerPass;
-use Vvbx\AuthBundle\Doctrine\UserRepository;
-use Vvbx\AuthBundle\Oidc\OidcClient;
-use Vvbx\AuthBundle\Security\OidcAuthenticator;
-use Vvbx\AuthBundle\Security\UserChecker;
-use Vvbx\AuthBundle\Security\UserProvider;
-use Vvbx\AuthBundle\Twig\SsoExtension;
+use Vvbx\SuiteBundle\Account\AccountManagerInterface;
+use Vvbx\SuiteBundle\Command\PreauthorizeUserCommand;
+use Vvbx\SuiteBundle\Controller\OidcController;
+use Vvbx\SuiteBundle\DependencyInjection\AccountManagerPass;
+use Vvbx\SuiteBundle\Doctrine\UserRepository;
+use Vvbx\SuiteBundle\Oidc\OidcClient;
+use Vvbx\SuiteBundle\Security\OidcAuthenticator;
+use Vvbx\SuiteBundle\Security\UserChecker;
+use Vvbx\SuiteBundle\Security\UserProvider;
+use Vvbx\SuiteBundle\Twig\SsoExtension;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
- * Connexion SSO OIDC (code + PKCE) et comptes désactivables pour les apps de la suite.
+ * Briques communes des apps de la suite. Aujourd'hui : connexion SSO OIDC (code + PKCE) et comptes désactivables.
  *
  * Le bundle ne fournit pas l'entité User : l'app garde la sienne et implémente OidcUserInterface
  * (et ActivatableUserInterface), ainsi que AccountManagerInterface pour la pré-autorisation des comptes.
  */
-final class VvbxAuthBundle extends AbstractBundle
+final class VvbxSuiteBundle extends AbstractBundle
 {
-    protected string $extensionAlias = 'vvbx_auth';
+    protected string $extensionAlias = 'vvbx_suite';
 
     public function build(ContainerBuilder $container): void
     {

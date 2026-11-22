@@ -1,14 +1,14 @@
 <?php
 
-namespace Vvbx\AuthBundle\Doctrine;
+namespace Vvbx\SuiteBundle\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vvbx\AuthBundle\Security\OidcUserInterface;
+use Vvbx\SuiteBundle\Security\OidcUserInterface;
 
 /**
- * Accès aux comptes de l'app (entité configurée par vvbx_auth.user_class), sans connaître son repository.
+ * Accès aux comptes de l'app (entité configurée par vvbx_suite.user_class), sans connaître son repository.
  */
 final class UserRepository
 {

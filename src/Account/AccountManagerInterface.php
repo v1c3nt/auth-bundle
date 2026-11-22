@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Account;
+namespace Vvbx\SuiteBundle\Account;
 
 /**
  * Gestion des comptes d'une app, implémentée par l'app (elle reste maîtresse de ses rôles et de leurs règles).

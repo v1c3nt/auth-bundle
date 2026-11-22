@@ -1,13 +1,13 @@
 <?php
 
-namespace Vvbx\AuthBundle\Testing;
+namespace Vvbx\SuiteBundle\Testing;
 
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 /**
  * IdP OIDC simulé (découverte, jeton, userinfo) pour les tests des apps.
  *
- * À brancher en env test : framework.http_client.mock_response_factory: Vvbx\AuthBundle\Testing\FakeIdp,
+ * À brancher en env test : framework.http_client.mock_response_factory: Vvbx\SuiteBundle\Testing\FakeIdp,
  * avec OIDC_ISSUER=https://idp.test. État statique : chaque test appelle reset() puis règle les claims renvoyés.
  */
 final class FakeIdp

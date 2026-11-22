@@ -1,6 +1,6 @@
 <?php
 
-namespace Vvbx\AuthBundle\Oidc;
+namespace Vvbx\SuiteBundle\Oidc;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Cache\CacheInterface;

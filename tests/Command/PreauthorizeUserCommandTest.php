@@ -1,13 +1,13 @@
 <?php
 
-namespace Vvbx\AuthBundle\Tests\Command;
+namespace Vvbx\SuiteBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Vvbx\AuthBundle\Account\AccountException;
-use Vvbx\AuthBundle\Account\AccountManagerInterface;
-use Vvbx\AuthBundle\Command\PreauthorizeUserCommand;
+use Vvbx\SuiteBundle\Account\AccountException;
+use Vvbx\SuiteBundle\Account\AccountManagerInterface;
+use Vvbx\SuiteBundle\Command\PreauthorizeUserCommand;
 
 final class PreauthorizeUserCommandTest extends TestCase
 {
