@@ -3,5 +3,6 @@ oidc.error.state: "La connexion a expiré ou a été interrompue. Recommencez."
 oidc.error.denied: "La connexion a été refusée par le service d'authentification."
 oidc.error.idp: "Le service d'authentification ne répond pas correctement. Réessayez plus tard."
 oidc.error.unknown_user: "Ce compte n'a pas accès à cette application. Contactez un administrateur."
+oidc.error.email_unverified: "Votre adresse e-mail n'est pas encore vérifiée auprès du service d'authentification. Merci de suivre la procédure reçue par e-mail, ou contactez un administrateur."
 # ---- compte désactivé (UserChecker)
 user.inactive: "Ce compte est désactivé. Contactez un administrateur."

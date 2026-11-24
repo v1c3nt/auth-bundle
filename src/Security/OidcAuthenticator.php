@@ -100,7 +100,12 @@ final class OidcAuthenticator extends AbstractAuthenticator
         }
 
         $email = $claims['email'] ?? null;
-        if (\is_string($email) && true === ($claims['email_verified'] ?? false)) {
+        if (\is_string($email) && true !== ($claims['email_verified'] ?? false)) {
+            // ---- ne dit rien des comptes de l'app (aucune recherche par e-mail) : seulement ce que l'IdP a déclaré
+            throw new CustomUserMessageAuthenticationException('oidc.error.email_unverified');
+        }
+
+        if (\is_string($email)) {
             $user = $this->users->findOneByEmail($email);
             // ---- jamais de rattachement d'un compte déjà lié à un autre sub
             if ($user instanceof OidcUserInterface && null === $user->getOidcSubject()) {
