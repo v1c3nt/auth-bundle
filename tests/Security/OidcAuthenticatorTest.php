@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Vvbx\SuiteBundle\Doctrine\UserRepository;
 use Vvbx\SuiteBundle\Oidc\OidcClient;
+use Vvbx\SuiteBundle\Security\AccountUserResolver;
 use Vvbx\SuiteBundle\Security\OidcAuthenticator;
 use Vvbx\SuiteBundle\Security\OidcSubjectTrait;
 use Vvbx\SuiteBundle\Security\OidcUserInterface;
@@ -105,7 +106,7 @@ final class OidcAuthenticatorTest extends TestCase
 
         $authenticator = new OidcAuthenticator(
             new OidcClient(new MockHttpClient(new FakeIdp()), new ArrayAdapter(), FakeIdp::ISSUER, 'app', 'secret'),
-            new UserRepository($registry, OidcUserInterface::class, 'email'),
+            new AccountUserResolver(new UserRepository($registry, OidcUserInterface::class, 'email')),
             $urls,
             'home',
             'login',

@@ -14,15 +14,13 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
-use Vvbx\SuiteBundle\Doctrine\UserRepository;
 use Vvbx\SuiteBundle\Oidc\OidcClient;
 use Vvbx\SuiteBundle\Oidc\OidcException;
 
 /**
  * Retour de l'IdP sur /oidc/callback : vérifie le state, lit les claims et retrouve le compte.
  *
- * Le compte est rattaché au sub. À la première connexion, un compte existant sans sub est rattaché
- * par son e-mail vérifié (pré-autorisation par l'administrateur). Un inconnu n'a aucun accès.
+ * L'utilisateur est trouvé par OidcUserResolverInterface (comptes de l'app par défaut : AccountUserResolver).
  */
 final class OidcAuthenticator extends AbstractAuthenticator
 {
@@ -31,7 +29,7 @@ final class OidcAuthenticator extends AbstractAuthenticator
 
     public function __construct(
         private readonly OidcClient $oidc,
-        private readonly UserRepository $users,
+        private readonly OidcUserResolverInterface $users,
         private readonly UrlGeneratorInterface $urls,
         private readonly string $targetRoute,
         private readonly string $loginRoute,
@@ -69,7 +67,7 @@ final class OidcAuthenticator extends AbstractAuthenticator
             throw new CustomUserMessageAuthenticationException('oidc.error.idp');
         }
 
-        return new SelfValidatingPassport(new UserBadge($subject, fn (): OidcUserInterface => $this->resolveUser($subject, $claims)));
+        return new SelfValidatingPassport(new UserBadge($subject, fn () => $this->users->resolve($subject, $claims)));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
@@ -87,35 +85,5 @@ final class OidcAuthenticator extends AbstractAuthenticator
     public function redirectUri(): string
     {
         return $this->urls->generate(self::CALLBACK_ROUTE, [], UrlGeneratorInterface::ABSOLUTE_URL);
-    }
-
-    /**
-     * @param array<string, mixed> $claims
-     */
-    private function resolveUser(string $subject, array $claims): OidcUserInterface
-    {
-        $user = $this->users->findOneBySubject($subject);
-        if (null !== $user) {
-            return $user;
-        }
-
-        $email = $claims['email'] ?? null;
-        if (\is_string($email) && true !== ($claims['email_verified'] ?? false)) {
-            // ---- ne dit rien des comptes de l'app (aucune recherche par e-mail) : seulement ce que l'IdP a déclaré
-            throw new CustomUserMessageAuthenticationException('oidc.error.email_unverified');
-        }
-
-        if (\is_string($email)) {
-            $user = $this->users->findOneByEmail($email);
-            // ---- jamais de rattachement d'un compte déjà lié à un autre sub
-            if ($user instanceof OidcUserInterface && null === $user->getOidcSubject()) {
-                $user->setOidcSubject($subject);
-                $this->users->flush();
-
-                return $user;
-            }
-        }
-
-        throw new CustomUserMessageAuthenticationException('oidc.error.unknown_user');
     }
 }

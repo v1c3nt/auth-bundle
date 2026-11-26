@@ -72,12 +72,27 @@ OIDC_EXTRA_SCOPES=
 - **Comptes** : un service qui implémente `AccountManagerInterface` (rôles attribuables, pré-autorisation d'un compte par e-mail). L'app y applique ses propres règles (ex. nombre d'administrateurs) et lève `AccountException` en cas de refus.
 - **Page de connexion** : bouton SSO si `vvbx_sso_enabled()`, vers `path('vvbx_suite_oidc_login')`. Les erreurs arrivent comme celles du formulaire (`error.messageKey|trans(error.messageData, 'security')`), traductions `oidc.*` et `user.inactive` fournies (surchargeables).
 
+## App sans comptes locaux
+
+Une app qui n'a pas de comptes en base (ex. le portail client, où l'IdP décide seul qui entre) omet `user_class`. Le bundle ne déclare alors ni `UserRepository`, ni `UserProvider`, ni `UserChecker`, ni la commande de pré-autorisation ; l'app fournit un service qui implémente `Security\OidcUserResolverInterface` (utilisateur construit à partir des claims) et son propre fournisseur d'utilisateurs.
+
+```php
+final class ClaimsUserResolver implements OidcUserResolverInterface
+{
+    public function resolve(string $subject, array $claims): UserInterface
+    {
+        return new PortalUser($subject, (string) ($claims['email'] ?? ''));
+    }
+}
+```
+
 ## Ce que fournit le bundle
 
 | Classe | Rôle |
 | --- | --- |
 | `Oidc\OidcClient` | découverte, URL d'autorisation PKCE, échange du code, `userinfo` |
-| `Security\OidcAuthenticator` | retour de l'IdP : `state`, claims, rattachement du compte |
+| `Security\OidcAuthenticator` | retour de l'IdP : `state`, claims, puis l'utilisateur par `OidcUserResolverInterface` |
+| `Security\AccountUserResolver` | comptes de l'app : rattachement au `sub`, ou par e-mail vérifié d'un compte pré-autorisé |
 | `Security\UserProvider` | chargement par e-mail ; un compte inactif perd sa session à la requête suivante |
 | `Security\UserChecker` | refuse la connexion d'un compte inactif (mot de passe et SSO) |
 | `Command\PreauthorizeUserCommand` | `vvbx:user:preauthorize <email> <role>`, relançable, appelée au provisioning |
